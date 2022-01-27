@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import './App.css';
 import ContactForm from './components/ContactForm/ContactForm';
 import Filter from './components/Filter/Filter';
@@ -20,7 +21,7 @@ class App extends Component {
 
   forSubmitHandler = newContact => {
     this.state.contacts.find(contact => contact.name === newContact.name)
-      ? alert(`${newContact.name} is already in contacts`)
+      ? toast.error(`${newContact.name} is already in contacts`)
       : this.setState(({ contacts }) => ({
           contacts: [...contacts, newContact],
         }));
@@ -67,6 +68,21 @@ class App extends Component {
         <h2>Contacts</h2>
         <Filter value={filter} onChange={this.handleFilterChange} />
         <ContactList contacts={visibleContacts} onDelete={this.deleteHandler} />
+        <Toaster
+          toastOptions={{
+            success: {
+              style: {
+                background: 'green',
+              },
+            },
+            error: {
+              style: {
+                background: 'red',
+                color: '#fff',
+              },
+            },
+          }}
+        />
       </div>
     );
   }
